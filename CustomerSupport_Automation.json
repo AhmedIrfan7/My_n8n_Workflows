@@ -1,0 +1,242 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Contact Form",
+        "formDescription": "Contact us if you have any questions",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "First Name",
+              "placeholder": "enter your first name"
+            },
+            {
+              "fieldLabel": "Last Name",
+              "placeholder": "enter your last name"
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "placeholder": "Enter your email address"
+            },
+            {
+              "fieldLabel": "Description",
+              "placeholder": "Enter the issue description"
+            },
+            {
+              "fieldLabel": "Course Type",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "n8n"
+                  },
+                  {
+                    "option": "make"
+                  },
+                  {
+                    "option": "zapier"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3e6831ce-931b-4866-87c3-962574e7c993",
+      "name": "Contact Form",
+      "webhookId": "b2b13fe6-9bd7-48cd-b694-efb49642f4f8"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1pg2UABtWoRIQEDLqjbT1zrNbMfplztuo1rLGOxrlBmA",
+          "mode": "list",
+          "cachedResultName": "Customer Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1pg2UABtWoRIQEDLqjbT1zrNbMfplztuo1rLGOxrlBmA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1pg2UABtWoRIQEDLqjbT1zrNbMfplztuo1rLGOxrlBmA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "First Name": "={{ $json['First Name'] }}",
+            "Last Name": "={{ $json['Last Name'] }}",
+            "Email": "={{ $json.Email }}",
+            "Course Type": "={{ $json['Course Type'] }}",
+            "submittedAt": "={{ $json.submittedAt }}",
+            "Description": "={{ $json.Description }}"
+          },
+          "matchingColumns": [
+            "First Name"
+          ],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Course Type",
+              "displayName": "Course Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "submittedAt",
+              "displayName": "submittedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "formMode",
+              "displayName": "formMode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        208,
+        0
+      ],
+      "id": "1e637966-4562-475b-9da7-dafd73c42451",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Z9NAlU7DJhC7yGQo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "ahmedautomates1@gmail.com",
+        "subject": "Form recieved",
+        "emailType": "text",
+        "message": "={{ $json.Description }} from {{ $json['First Name'] }} {{ $json['Last Name'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "73a7db4a-7f17-4e9d-9c5e-1a323181b045",
+      "name": "Send a message",
+      "webhookId": "21cded37-4424-4f96-be98-5b1640983fc4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "mnwIONVIPZNJHzhN",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Contact Form": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "9a94b8ee-75cf-4f2c-8b30-a4c17d52f623",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a90fc6adba715a5f13049f220936f151323d11daf94c8e5a255b2aaafb212238"
+  },
+  "id": "cVk-czku4M18MuGQYFKd5",
+  "tags": []
+}
